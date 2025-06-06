@@ -4,6 +4,11 @@ from typing import Optional
 from sqlalchemy import Column, String
 from sqlmodel import Field, SQLModel
 
+# TODO: Remove this
+"""
+    This file contains the Database model create used SQLModel with table=True
+"""
+
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)

@@ -5,6 +5,7 @@ from sqlmodel import SQLModel
 
 from backend import models  # noqa: F401
 from backend.database.db import engine
+from backend.routes.routes import router
 
 
 # TODO: create_all is for texting only, will be using alembic for production migrations
@@ -15,6 +16,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
+app.include_router(router)
 
 
 @app.get("/health")

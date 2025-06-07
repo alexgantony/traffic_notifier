@@ -1,15 +1,21 @@
+# Python / FastAPI
+__pycache__/
+*.pyc
+
 # Virtual environment
 venv/
-__pycache__/
 
 # VS Code settings
 .vscode/
-
-# Python cache
-*.pyc
 
 # Environment variables
 .env
 
 # Windows OS file
 Thumbs.db
+
+# Ruff Linter Chche
+.ruff_cache/
+
+# Databases
+*.db

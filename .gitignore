@@ -13,3 +13,6 @@ __pycache__/
 
 # Windows OS file
 Thumbs.db
+
+# Databases
+*.db

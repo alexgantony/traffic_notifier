@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from sqlmodel import create_engine
+from sqlmodel import Session, create_engine
 
 BASE_DIR = Path(__file__).resolve().parent  # backend/database
 sqlite_file_name = BASE_DIR / "database.db"
@@ -9,3 +9,8 @@ sqlite_file_name = BASE_DIR / "database.db"
 # sql_file_name = "database.db"
 engine = create_engine(f"sqlite:///{sqlite_file_name}", echo=True)
 # echo - to log sql statements being executes (useful for debugging)
+
+
+def get_session():
+    with Session(engine) as session:
+        yield session

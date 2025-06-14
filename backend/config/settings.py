@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     TWILIO_AUTH_TOKEN: str
     TWILIO_PHONE_NUMBER: str
     TWILIO_RECEIVER_NUMBER: str
+    TWILIO_ENABLED: bool
 
     GOOGLE_MAPS_API_KEY: str
 

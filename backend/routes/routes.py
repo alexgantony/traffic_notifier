@@ -9,13 +9,14 @@ router = APIRouter()
 
 # TODO: Remove this
 """
+    this file focuses on CRUD
     this file contains APIRouter file i.e, endpoints definition
 """
 # TODO: Add logs
 
 
 # create a new commute route
-@router.post("/routes/", response_model=RouteOut)
+@router.post("/routes/", response_model=RouteOut, tags=["routes"])
 async def create_route(route_in: RouteCreate, session: Session = Depends(get_session)):
     db_route = Route(**route_in.model_dump())
     # Insert into database
@@ -28,7 +29,7 @@ async def create_route(route_in: RouteCreate, session: Session = Depends(get_ses
 
 
 # fetch all routes
-@router.get("/routes/", response_model=list[RouteOut])
+@router.get("/routes/", response_model=list[RouteOut], tags=["routes"])
 async def list_routes(session: Session = Depends(get_session)):
     # select * from route
     statement = select(Route)
@@ -40,7 +41,7 @@ async def list_routes(session: Session = Depends(get_session)):
 
 
 # fetch a specific route by ID
-@router.get("/routes/{route_id}", response_model=RouteOut)
+@router.get("/routes/{route_id}", response_model=RouteOut, tags=["routes"])
 async def get_route(route_id: int, session: Session = Depends(get_session)):
     route = session.get(Route, route_id)
     if not route:
@@ -49,7 +50,7 @@ async def get_route(route_id: int, session: Session = Depends(get_session)):
 
 
 # update selected route fields
-@router.patch("/routes/{route_id}", response_model=RouteOut)
+@router.patch("/routes/{route_id}", response_model=RouteOut, tags=["routes"])
 async def update_route(
     route_id: int,
     route_in: RouteUpdate = Body(...),
@@ -71,7 +72,7 @@ async def update_route(
 
 
 # delete a route by ID
-@router.delete("/routes/{route_id}", response_model=RouteOut)
+@router.delete("/routes/{route_id}", response_model=RouteOut, tags=["routes"])
 async def delete_route(route_id: int, session: Session = Depends(get_session)):
     route = session.get(Route, route_id)
     if not route:

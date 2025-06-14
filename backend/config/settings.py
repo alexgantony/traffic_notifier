@@ -9,5 +9,7 @@ class Settings(BaseSettings):
     TWILIO_PHONE_NUMBER: str
     TWILIO_RECEIVER_NUMBER: str
 
+    GOOGLE_MAPS_API_KEY: str
+
 
 settings = Settings()

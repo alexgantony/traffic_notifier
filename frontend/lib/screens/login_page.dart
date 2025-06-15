@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import '../app_colors.dart';
+import "package:flutter/material.dart";
+import "../app_colors.dart";
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -46,7 +46,7 @@ Widget build(BuildContext context) {
                 const Text(
                   "Traffic SMS Notifier",
                   style: TextStyle(
-                    fontFamily: 'Roboto',
+                    fontFamily: "Roboto",
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                     color: AppColors.darkText,
@@ -55,27 +55,29 @@ Widget build(BuildContext context) {
                 const SizedBox(height: 24),
                 TextField(
                   controller: emailController,
-                  decoration: const InputDecoration(hintText: 'Email'),
+                  decoration: const InputDecoration(hintText: "Email"),
                 ),
                 const SizedBox(height: 16),
                 TextField(
                   controller: passwordController,
                   obscureText: true,
-                  decoration: const InputDecoration(hintText: 'Password'),
+                  decoration: const InputDecoration(hintText: "Password"),
                 ),
                 const SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
                   height: 48,
                   child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('LOG IN'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/home");
+                    },
+                    child: const Text("LOG IN"),
                   ),
                 ),
                 const SizedBox(height: 12),
                 TextButton(
                   onPressed: () {},
-                  child: const Text('Forgot password?'),
+                  child: const Text("Forgot password?"),
                 ),
               ],
             ),

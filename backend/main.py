@@ -12,8 +12,19 @@ from backend.routes.traffic import traffic_router
 # TODO: create_all is for texting only, will be using alembic for production migrations
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    from backend.services.scheduler import scheduler
+
     SQLModel.metadata.create_all(engine)
+
+    try:
+        scheduler.start()
+        print("Scheduler Stared")  # TODO: for testing -> remove later
+    except RuntimeError as e:
+        print(f"Scheduler already started: {e}")
+
     yield
+
+    scheduler.shutdown()
 
 
 app = FastAPI(lifespan=lifespan)

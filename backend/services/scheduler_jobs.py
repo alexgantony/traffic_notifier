@@ -3,8 +3,9 @@ from datetime import datetime
 
 from sqlmodel import select
 
+from backend.config.settings import settings
 from backend.database.db import get_session
-from backend.models.models import Route
+from backend.models.models import Route, TrafficLog
 from backend.services.google_maps_services import get_eta_minutes
 
 
@@ -31,3 +32,19 @@ def check_scheduled_routes():
             ):
                 eta = get_eta_minutes(route.source_address, route.destination_address)
                 print(f"ETA for route {route.route_label}: {eta}")
+
+                is_delayed = eta > route.delay_threshold
+
+                traffic_log = TrafficLog(
+                    route_id=route.id,
+                    eta_in_minutes=eta,
+                    delay_threshold=route.delay_threshold,
+                    is_delayed=is_delayed,
+                    sms_sent=settings.TWILIO_ENABLED,
+                )
+                session.add(traffic_log)
+                session.commit()
+
+                print(
+                    f"Logged traffic for route {route.route_label}, delayed={is_delayed}"
+                )

@@ -37,9 +37,13 @@ class Route(SQLModel, table=True):
 
 class TrafficLog(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    eta_in_minutes: int = Field(nullable=False)
+
     route_id: int = Field(foreign_key="route.id", index=True)
-    user_id: int = Field(foreign_key="user.id", index=True)
+
+    eta_in_minutes: int = Field(nullable=False)
+    delay_threshold: int = Field(nullable=False)
+    is_delayed: bool = Field(default=False, nullable=False)
+    sms_sent: bool = Field(default=False, nullable=False)
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )

@@ -14,7 +14,6 @@ from backend.services.google_maps_services import get_eta_minutes
 traffic_router = APIRouter()
 
 
-# mock traffic check endpoint
 @traffic_router.post("/routes/{route_id}/check", tags=["traffic"])
 async def check_traffic(route_id: int, session: Session = Depends(get_session)):
     route = session.get(Route, route_id)
@@ -31,7 +30,11 @@ async def check_traffic(route_id: int, session: Session = Depends(get_session)):
     if eta_in_minutes > route.delay_threshold:
         if settings.TWILIO_ENABLED:
             message = client.messages.create(
-                body=f"Delay detected: Current ETA is {eta_in_minutes} min. Your threshold is {route.delay_threshold} min.",
+                body=(
+                    f"🚦 Delay detected on '{route.route_label}' "
+                    f"({route.source_address} → {route.destination_address}). "
+                    f"ETA: {eta_in_minutes} min. Threshold: {route.delay_threshold} min."
+                ),
                 from_=settings.TWILIO_PHONE_NUMBER,
                 to=settings.TWILIO_RECEIVER_NUMBER,
             )
@@ -43,7 +46,11 @@ async def check_traffic(route_id: int, session: Session = Depends(get_session)):
     else:
         if settings.TWILIO_ENABLED:
             message = client.messages.create(
-                body=f"No delay. ETA is {eta_in_minutes}. Route is clear",
+                body=(
+                    f"✅ Route '{route.route_label}' is clear "
+                    f"({route.source_address} → {route.destination_address}). "
+                    f"ETA: {eta_in_minutes} min."
+                ),
                 from_=settings.TWILIO_PHONE_NUMBER,
                 to=settings.TWILIO_RECEIVER_NUMBER,
             )

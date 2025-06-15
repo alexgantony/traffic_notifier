@@ -16,7 +16,7 @@ traffic_router = APIRouter()
 
 # mock traffic check endpoint
 @traffic_router.post("/routes/{route_id}/check", tags=["traffic"])
-async def check_traffic_mock(route_id: int, session: Session = Depends(get_session)):
+async def check_traffic(route_id: int, session: Session = Depends(get_session)):
     route = session.get(Route, route_id)
     if not route:
         raise HTTPException(status_code=404, detail="Route not found")
@@ -31,7 +31,7 @@ async def check_traffic_mock(route_id: int, session: Session = Depends(get_sessi
     if eta_in_minutes > route.delay_threshold:
         if settings.TWILIO_ENABLED:
             message = client.messages.create(
-                body=f"🚦 Delay detected: Current ETA is {eta_in_minutes} min. Your threshold is {route.delay_threshold} min.",
+                body=f"Delay detected: Current ETA is {eta_in_minutes} min. Your threshold is {route.delay_threshold} min.",
                 from_=settings.TWILIO_PHONE_NUMBER,
                 to=settings.TWILIO_RECEIVER_NUMBER,
             )

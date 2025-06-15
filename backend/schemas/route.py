@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 
 from sqlmodel import SQLModel
 
@@ -26,6 +26,7 @@ class RouteBase(SQLModel):
     )
     traffic_check_time: datetime | None = None
     delay_threshold: int
+    alert_time: time | None = None
 
 
 # Create a new route
@@ -60,3 +61,4 @@ class RouteUpdate(RouteBase):
     )
     traffic_check_time: datetime | None = None
     delay_threshold: int | None = None
+    alert_time: time | None = None

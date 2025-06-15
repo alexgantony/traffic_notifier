@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, time, timezone
 from typing import Optional
 
 from sqlalchemy import Column, String
@@ -32,6 +32,7 @@ class Route(SQLModel, table=True):
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
     user_id: int | None = Field(default=None, foreign_key="user.id", index=True)
+    alert_time: time | None = None
 
 
 class TrafficLog(SQLModel, table=True):

@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from sqlmodel import SQLModel
 
 from backend import models  # noqa: F401
+from backend.config.settings import settings
 from backend.database.db import engine
 from backend.routes.routes import router
 from backend.routes.traffic import traffic_router

@@ -11,9 +11,10 @@ def get_eta_minutes(source: str, destination: str) -> int:
 
     r = requests.get(url=distance_matrix_url)
     data = r.json()
-    eta = data["rows"][0]["elements"][0]["duration"]["value"] // 60
+    element = data["rows"][0]["elements"][0]
+
+    if element.get("status") != "OK":
+        raise Exception(f"Google API returned error: {element}")
+
+    eta = element["duration"]["value"] // 60
     return eta
-
-
-if __name__ == "__main__":
-    print(get_eta_minutes("Kochi", "Thrissur"))

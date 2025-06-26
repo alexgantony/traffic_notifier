@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'theme/AppColorScheme.dart';
-import 'screens/HomeScreen.dart';
+import 'theme/app_color_scheme.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -175,18 +175,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: const Center(child: Text('Welcome to the Home Screen!')),
     );
   }
 }

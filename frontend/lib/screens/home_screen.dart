@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/route_info.dart';
 import 'package:frontend/theme/app_color_scheme.dart';
+import 'package:frontend/screens/route_detail_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -40,17 +41,24 @@ class HomeScreen extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 8),
             child: ListTile(
               title: Text(
-                route.name,
+                route.routeLabel,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: AppColors.heading,
                 ),
               ),
-              subtitle: Text('${route.from} → ${route.to}'),
+              subtitle: Text(
+                '${route.sourceAddress} → ${route.destinationAddress}',
+              ),
               leading: const Icon(Icons.route),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
-                // Navigation
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => RouteDetailScreen(route: route),
+                  ),
+                );
               },
             ),
           );
@@ -72,8 +80,32 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-final List<RouteInfo> routes = [
-  RouteInfo(name: 'Work Commute', from: 'Home', to: 'Office'),
-  RouteInfo(name: 'Gym Route', from: 'Office', to: 'Gym'),
-  RouteInfo(name: 'Week Drive', from: 'Home', to: 'Beach'),
+final List<RouteDetailInfo> routes = [
+  RouteDetailInfo(
+    id: 1,
+    routeLabel: 'Work Commute',
+    sourceAddress: 'Home',
+    destinationAddress: 'Office',
+    delayThreshold: 10,
+    trafficCheckTime: DateTime.now(),
+    alertTime: const TimeOfDay(hour: 8, minute: 0),
+  ),
+  RouteDetailInfo(
+    id: 2,
+    routeLabel: 'Gym Route',
+    sourceAddress: 'Office',
+    destinationAddress: 'Gym',
+    delayThreshold: 5,
+    trafficCheckTime: DateTime.now(),
+    alertTime: const TimeOfDay(hour: 18, minute: 30),
+  ),
+  RouteDetailInfo(
+    id: 3,
+    routeLabel: 'Week Drive',
+    sourceAddress: 'Home',
+    destinationAddress: 'Beach',
+    delayThreshold: 20,
+    trafficCheckTime: DateTime.now(),
+    alertTime: const TimeOfDay(hour: 9, minute: 0),
+  ),
 ];

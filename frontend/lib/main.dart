@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/route_detail_screen.dart';
 import 'theme/app_color_scheme.dart';
 import 'screens/home_screen.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Navigation Lab',
-      initialRoute: '/',
+      initialRoute: '/home',
       routes: {
         '/': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),

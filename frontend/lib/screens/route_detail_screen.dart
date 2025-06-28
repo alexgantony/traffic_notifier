@@ -25,6 +25,14 @@ class _RouteDetailScreenState extends State<RouteDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppColors.heading),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(

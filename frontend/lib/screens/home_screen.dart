@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/models/route_info.dart';
 import 'package:frontend/theme/app_color_scheme.dart';
 import 'package:frontend/screens/route_detail_screen.dart';
+import 'package:frontend/screens/add_route_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -72,8 +73,20 @@ class HomeScreen extends StatelessWidget {
           color: AppColors.heading,
           semanticLabel: 'Add a new route',
         ),
-        onPressed: () {
-          // Navigate to Add Route Screen
+        onPressed: () async {
+          final newRoute = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AddRouteScreen()),
+          );
+
+          if (newRoute != null) {
+            // TODO: Backend - Append to route list
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('New route \'${newRoute.routeLabel}\' added!'),
+              ),
+            );
+          }
         },
       ),
     );

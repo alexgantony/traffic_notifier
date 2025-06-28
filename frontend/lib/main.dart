@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/route_detail_screen.dart';
 import 'theme/app_color_scheme.dart';
 import 'screens/home_screen.dart';
 

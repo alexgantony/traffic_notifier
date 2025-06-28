@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/edit_route_screen.dart';
 import 'package:frontend/theme/app_color_scheme.dart';
 import 'package:frontend/models/route_info.dart';
 import 'package:intl/intl.dart';
 
-class RouteDetailScreen extends StatelessWidget {
+class RouteDetailScreen extends StatefulWidget {
   final RouteDetailInfo route;
 
   const RouteDetailScreen({super.key, required this.route});
+
+  @override
+  State<RouteDetailScreen> createState() => _RouteDetailScreenState();
+}
+
+class _RouteDetailScreenState extends State<RouteDetailScreen> {
+  late RouteDetailInfo route;
+
+  @override
+  void initState() {
+    super.initState();
+    route = widget.route;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,8 +156,20 @@ class RouteDetailScreen extends StatelessWidget {
                     // edit button
                     Expanded(
                       child: ElevatedButton.icon(
-                        onPressed: () {
-                          // TODO: Navigate to edit screen
+                        onPressed: () async {
+                          final updatedRoute = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => EditRouteScreen(route: route),
+                            ),
+                          );
+
+                          if (updatedRoute != null &&
+                              updatedRoute is RouteDetailInfo) {
+                            setState(() {
+                              route = updatedRoute;
+                            });
+                          }
                         },
                         icon: const Icon(Icons.edit),
                         label: const Text('Edit'),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/route_info.dart';
+import 'package:frontend/screens/settings_screen.dart';
 import 'package:frontend/theme/app_color_scheme.dart';
 import 'package:frontend/screens/route_detail_screen.dart';
 import 'package:frontend/screens/add_route_screen.dart';
@@ -12,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
@@ -56,13 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
 
     // Tab 1: Settings screen
-    Center(
-      child: Text(
-        'Settings Page',
-        style: TextStyle(fontSize: 24, color: AppColors.heading),
-      ),
-    ),
+    const SettingsScreen(),
   ];
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -83,69 +80,72 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       resizeToAvoidBottomInset: true,
-      body: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        itemCount: routes.length,
-        itemBuilder: (context, index) {
-          final route = routes[index];
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: AppColors.card,
-            elevation: 3,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: ListTile(
-              title: Text(
-                route.routeLabel,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.heading,
-                ),
-              ),
-              subtitle: Text(
-                '${route.sourceAddress} → ${route.destinationAddress}',
-              ),
-              leading: const Icon(Icons.route),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => RouteDetailScreen(route: route),
-                  ),
-                );
-              },
-            ),
-          );
-        },
-      ),
+      body: _screens[_selectedIndex],
+      // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      // itemCount: routes.length,
+      // itemBuilder: (context, index) {
+      //   final route = routes[index];
+      //   return Card(
+      //     shape: RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.circular(12),
+      //     ),
+      //     color: AppColors.card,
+      //     elevation: 3,
+      //     margin: const EdgeInsets.symmetric(vertical: 8),
+      //     child: ListTile(
+      //       title: Text(
+      //         route.routeLabel,
+      //         style: TextStyle(
+      //           fontWeight: FontWeight.bold,
+      //           color: AppColors.heading,
+      //         ),
+      //       ),
+      //       subtitle: Text(
+      //         '${route.sourceAddress} → ${route.destinationAddress}',
+      //       ),
+      //       leading: const Icon(Icons.route),
+      //       trailing: const Icon(Icons.chevron_right),
+      //       onTap: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (_) => RouteDetailScreen(route: route),
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //   );
+      // },
 
       //FAB - Floating Action Button '+'
-      floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(),
-        backgroundColor: AppColors.card,
-        child: Icon(
-          Icons.add,
-          color: AppColors.heading,
-          semanticLabel: 'Add a new route',
-        ),
-        onPressed: () async {
-          final newRoute = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const AddRouteScreen()),
-          );
-
-          if (newRoute != null) {
-            // TODO: Backend - Append to route list
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('New route \'${newRoute.routeLabel}\' added!'),
+      floatingActionButton: _selectedIndex == 0
+          ? FloatingActionButton(
+              shape: const CircleBorder(),
+              backgroundColor: AppColors.card,
+              child: Icon(
+                Icons.add,
+                color: AppColors.heading,
+                semanticLabel: 'Add a new route',
               ),
-            );
-          }
-        },
-      ),
+              onPressed: () async {
+                final newRoute = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AddRouteScreen()),
+                );
+
+                if (newRoute != null) {
+                  // TODO: Backend - Append to route list
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'New route \'${newRoute.routeLabel}\' added!',
+                      ),
+                    ),
+                  );
+                }
+              },
+            )
+          : null,
 
       // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(

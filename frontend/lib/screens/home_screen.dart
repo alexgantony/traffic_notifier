@@ -81,41 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       resizeToAvoidBottomInset: true,
       body: _screens[_selectedIndex],
-      // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      // itemCount: routes.length,
-      // itemBuilder: (context, index) {
-      //   final route = routes[index];
-      //   return Card(
-      //     shape: RoundedRectangleBorder(
-      //       borderRadius: BorderRadius.circular(12),
-      //     ),
-      //     color: AppColors.card,
-      //     elevation: 3,
-      //     margin: const EdgeInsets.symmetric(vertical: 8),
-      //     child: ListTile(
-      //       title: Text(
-      //         route.routeLabel,
-      //         style: TextStyle(
-      //           fontWeight: FontWeight.bold,
-      //           color: AppColors.heading,
-      //         ),
-      //       ),
-      //       subtitle: Text(
-      //         '${route.sourceAddress} → ${route.destinationAddress}',
-      //       ),
-      //       leading: const Icon(Icons.route),
-      //       trailing: const Icon(Icons.chevron_right),
-      //       onTap: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //             builder: (_) => RouteDetailScreen(route: route),
-      //           ),
-      //         );
-      //       },
-      //     ),
-      //   );
-      // },
 
       //FAB - Floating Action Button '+'
       floatingActionButton: _selectedIndex == 0

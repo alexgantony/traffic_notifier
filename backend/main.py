@@ -6,6 +6,7 @@ from sqlmodel import SQLModel
 from backend import models  # noqa: F401
 from backend.config.settings import settings  # noqa: F401
 from backend.database.db import engine
+from backend.routes.auth import router as auth_router
 from backend.routes.routes import router
 from backend.routes.traffic import traffic_router
 
@@ -32,6 +33,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(router)
 app.include_router(traffic_router)
+app.include_router(auth_router)
 
 
 @app.get("/health")

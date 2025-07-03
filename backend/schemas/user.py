@@ -15,5 +15,5 @@ class UserLogin(BaseModel):
 
 class UserRead(BaseModel):
     id: int
-    email: int
+    email: str
     created_at: datetime

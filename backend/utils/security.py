@@ -1,17 +1,21 @@
 from datetime import datetime, timedelta, timezone
 
-from config.settings import settings
-from database.db import get_session
 from fastapi import Depends, HTTPException
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import (
+    HTTPAuthorizationCredentials,
+    HTTPBearer,
+)
 from jose import JWTError, jwt
-from models.models import User
 from passlib.context import CryptContext
 from sqlmodel import Session, select
 
+from backend.config.settings import settings
+from backend.database.db import get_session
+from backend.models.models import User
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = HTTPBearer()
 
 credentials_exception = HTTPException(
     status_code=401, detail="Could not validate credentials"
@@ -38,12 +42,16 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme), session: Session = Depends(get_session)
+    token: HTTPAuthorizationCredentials = Depends(oauth2_scheme),
+    session: Session = Depends(get_session),
 ) -> User:
     try:
         payload = jwt.decode(
-            token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM]
+            token.credentials,
+            settings.JWT_SECRET_KEY,
+            algorithms=[settings.JWT_ALGORITHM],
         )
+
         user_id = payload.get("user_id")
         if user_id is None:
             raise credentials_exception

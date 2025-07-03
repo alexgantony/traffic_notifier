@@ -1,18 +1,19 @@
 from datetime import timedelta
 
-from database.db import get_session
 from fastapi import APIRouter, Depends, HTTPException
-from models.models import User
-from schemas.user import UserCreate, UserLogin, UserRead
 from sqlmodel import Session, select
-from utils.security import (
-    ACCESS_TOKEN_EXPIRE_MINUTES,
+
+from backend.config.settings import settings
+from backend.database.db import get_session
+from backend.models.models import User
+from backend.schemas.user import UserCreate, UserLogin, UserRead
+from backend.utils.security import (
     create_access_token,
     hash_password,
     verify_password,
 )
 
-router = APIRouter(prefix="/auth")
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @router.post("/signup", response_model=UserRead)
@@ -46,6 +47,6 @@ def login(user: UserLogin, session: Session = Depends(get_session)):
 
     access_token = create_access_token(
         data={"user_id": existing_user.id},
-        expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+        expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     )
     return {"access_token": access_token, "token_type": "bearer"}

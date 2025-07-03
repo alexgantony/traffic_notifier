@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Body, Depends, HTTPException, Response
 from sqlmodel import Session, select
-from utils.security import get_current_user
 
 from backend.database.db import get_session
 from backend.models import Route, User
 from backend.schemas.route import RouteCreate, RouteOut, RouteUpdate
+from backend.utils.security import get_current_user
 
 router = APIRouter()
 
